@@ -1,22 +1,22 @@
-async function receiveTicket(req, res) {
+const receiveTicket = async (req, res) => {
   console.log("====================================");
-  console.log("METHOD:", req.method);
+  console.log("CLICKUP EVENT");
 
-  console.log("HEADERS:");
+  console.log("\nHEADERS:");
   console.dir(req.headers, { depth: null });
 
-  console.log("BODY:");
+  console.log("\nBODY:");
   console.dir(req.body, { depth: null });
 
-  console.log("QUERY:");
+  console.log("\nQUERY:");
   console.dir(req.query, { depth: null });
 
   console.log("====================================");
 
-  return res.status(200).json({
-    received: true,
+  res.status(200).json({
+    success: true,
   });
-}
+};
 
 module.exports = {
   receiveTicket,
