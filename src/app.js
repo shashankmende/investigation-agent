@@ -5,6 +5,18 @@ const clickupRoute = require("./routes/clickup.route");
 const app = express();
 
 app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  }),
+);
+
+app.use(
+  express.text({
+    type: "*/*",
+  }),
+);
+
 app.use((req, res, next) => {
   console.log("METHOD:", req.method);
   console.log("URL:", req.url);

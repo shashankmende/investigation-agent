@@ -1,6 +1,14 @@
 const receiveTicket = async (req, res) => {
   console.log("====================================");
-  console.log("CLICKUP EVENT");
+    console.log("CLICKUP EVENT");
+    
+    console.log("BODY TYPE:");
+    console.log(typeof req.body);
+
+    console.log("BODY:");
+    console.dir(req.body, {
+      depth: null,
+    });
 
   console.log("\nHEADERS:");
   console.dir(req.headers, { depth: null });
