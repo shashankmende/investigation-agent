@@ -1,14 +1,20 @@
 async function receiveTicket(req, res) {
-  console.log("===============");
-  console.log("CLICKUP EVENT");
-  console.log("===============");
+  console.log("====================================");
+  console.log("METHOD:", req.method);
 
-  console.dir(req.body, {
-    depth: null,
-  });
+  console.log("HEADERS:");
+  console.dir(req.headers, { depth: null });
 
-  res.status(200).json({
-    success: true,
+  console.log("BODY:");
+  console.dir(req.body, { depth: null });
+
+  console.log("QUERY:");
+  console.dir(req.query, { depth: null });
+
+  console.log("====================================");
+
+  return res.status(200).json({
+    received: true,
   });
 }
 
