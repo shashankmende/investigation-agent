@@ -1,10 +1,11 @@
 async function receiveTicket(req, res) {
-    console.log("Headers:");
-    console.log(req.headers);
+  console.log("===============");
+  console.log("CLICKUP EVENT");
+  console.log("===============");
 
-    console.log("Body:");
-    console.dir(req.body, { depth: null });
-
+  console.dir(req.body, {
+    depth: null,
+  });
 
   res.status(200).json({
     success: true,
