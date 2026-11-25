@@ -1,29 +1,45 @@
+
+const ACK_MESSAGE = require("../templates/acknowledgement");
+const {
+  getTaskDetails,
+  getTaskComments,
+} = require("../services/clickup.service");
+const { processAttachments } = require("../services/attachment.service");
+const { buildTicketContext } = require("../utils/context-builder");
+const { runInvestigation } = require("../workflows/investigation.workflow");
+
+console.log("ACK:");
+console.log(ACK_MESSAGE);
+
 const receiveTicket = async (req, res) => {
-  console.log("====================================");
-    console.log("CLICKUP EVENT");
-    
-    console.log("BODY TYPE:");
-    console.log(typeof req.body);
+    try {
+        const { taskId, taskName, description } = req.body;
+        console.log("Received ticket:", { taskId, taskName, description });
+        const taskDetails = await getTaskDetails(taskId);
 
-    console.log("BODY:");
-    console.dir(req.body, {
-      depth: null,
-    });
+        const comments = await getTaskComments(taskId);
+        // console.log("Comments:", comments);
 
-  console.log("\nHEADERS:");
-  console.dir(req.headers, { depth: null });
+        const ticketContext = buildTicketContext({ task: taskDetails, comments });
+        const findings = await processAttachments(ticketContext.attachments);
 
-  console.log("\nBODY:");
-  console.dir(req.body, { depth: null });
-
-  console.log("\nQUERY:");
-  console.dir(req.query, { depth: null });
-
-  console.log("====================================");
-
-  res.status(200).json({
-    success: true,
-  });
+        const investigationContext = {
+          ...ticketContext,
+          attachmentFindings: findings,
+        };
+        const investigationResult = await runInvestigation(investigationContext);
+        const files = await searchGitlab(understanding.gitlab_search_terms);
+        
+        res.status(200).json({
+            success: true,
+        });
+    }catch (error) {
+        console.error("Error receiving ticket:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
+    }
 };
 
 module.exports = {
